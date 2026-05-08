@@ -1,7 +1,5 @@
 # GhostPrefix
 
----
-
 Source code for the paper, "GhostPrefix: Synchronization-Free Universal Prefix Attacks for ASR Manipulation"
 
 by *Anonymous Authors*, in submission to [Network and Distributed System Security Symposium (NDSS) 2027](https://www.ndss-symposium.org/ndss2027/).
@@ -10,8 +8,6 @@ Visit our [website](https://ghostprefix.github.io/) for artifacts and demos.
 
 In this repository, we provide the complete code for training and testing **GhostPrefix** adversarial audio prefixes.
 
----
-
 ## Installation
 
 Clone this repository and install dependencies with `pip install -r requirements.txt`.
@@ -19,8 +15,6 @@ Clone this repository and install dependencies with `pip install -r requirements
 For GPU support, you may need to install PyTorch separately following the instructions from https://pytorch.org/get-started/locally/.
 
 If you run into issues installing `omnilingual-asr` and `fairseq2` may also need to install `fairseq2` separately following the instructions from https://github.com/facebookresearch/fairseq2.
-
----
 
 ## Usage
 
@@ -44,9 +38,11 @@ To generate your own **GhostPrefix** adversarial audio prefixes, first edit one 
 3. If you wish to tailor the prefix to an environmental sound template, set `initial_prefix` to the path to a .wav file. It could be a car horn sound effect, notification tone, or any other environmental sound. **GhostPrefix** will initialize the prefix to that sound template and perform a Carlini--Wagner-style L2 attack so that it remains close to that sound.
 4. To train a prefix that's robust to over-the-air playback, set `robust` to True and set `ir_dataset` to the path to a room impulse response (RIR)dataset. We use the MIT McDermott dataset, available [here](https://mcdermottlab.mit.edu/Reverb/IR_Survey.html).
 
-**GhostPrefix** currently only supports two datasets, `librispeech_asr` and `facebook/multilingual_librispeech`. To use the latter, `name` can be set to one of the languages included in MLS (`german`, `dutch`, etc.). To use a different dataset, you may have to edit the code to support it.
+**GhostPrefix** currently only supports two Hugging Face datasets, `librispeech_asr` and `facebook/multilingual_librispeech`. To use the latter, `name` can be set to one of the languages included in MLS (`german`, `dutch`, etc.). To use a different dataset, you may have to edit the code to support it.
 
 Additionally, while we use MSE loss on hidden states for our untargeted attack mode, we use a also implement a traditional untargeted attack that uses a token-level loss. To use it, change `attack: !!python/name:attacks.UntargetedAttack` to `attack: !!python/name:attacks.TraditionalUntargetedAttack` in `configs/untargeted.yaml`.
+
+---
 
 Use `train.py` with one of the config files to begin training the prefix, for example:
 
@@ -56,8 +52,12 @@ python train.py configs/prompted.yaml
 
 Prefix checkpoints, saved optimizer states, and the training log will be saved in the directory specified by `save_folder` in the config file. After each epoch, evaluation results will be saved in `eval_folder`.
 
+---
+
 To evaluate a prefix on the test dataset, use `evaluate.py`:
 
 ```bash
 python evaluate.py configs/prompted.yaml path/to/prefix.wav optional/path/to/output.log
 ```
+
+By default, this will also evaulate the performance of the ASR model with no attack. If that is too time-consuming, add the argument `eval_no_atk=False` to the `attack.evaluate()` function call in line 28 of `evaluate.py`.
