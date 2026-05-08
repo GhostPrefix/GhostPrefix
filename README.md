@@ -40,7 +40,7 @@ To generate your own **GhostPrefix** adversarial audio prefixes, first edit one 
 
 **GhostPrefix** currently only supports two Hugging Face datasets, `librispeech_asr` and `facebook/multilingual_librispeech`. To use the latter, `name` can be set to one of the languages included in MLS (`german`, `dutch`, etc.). To use a different dataset, you may have to edit the code to support it.
 
-Additionally, while we use MSE loss on hidden states for our untargeted attack mode, we use a also implement a traditional untargeted attack that uses a token-level loss. To use it, change `attack: !!python/name:attacks.UntargetedAttack` to `attack: !!python/name:attacks.TraditionalUntargetedAttack` in `configs/untargeted.yaml`.
+Additionally, while we use MSE loss on hidden states for our untargeted attack mode, we also implement a traditional untargeted attack that uses a token-level loss. To use it, change `attack: !!python/name:attacks.UntargetedAttack` to `attack: !!python/name:attacks.TraditionalUntargetedAttack` in `configs/untargeted.yaml`.
 
 ---
 
