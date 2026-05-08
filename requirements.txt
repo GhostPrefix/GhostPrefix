@@ -1,0 +1,13 @@
+datasets[audio]
+fairseq2
+jiwer
+julius
+librosa
+numpy
+omnilingual-asr
+openai-whisper
+soundfile
+transformers
+torch
+torchaudio
+tqdm

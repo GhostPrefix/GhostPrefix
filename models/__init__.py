@@ -1,0 +1,4 @@
+from .omniasr_ctc import OmniAsrCtcAttack, OmniAsrCtcAttackOnHiddenStates
+from .omniasr_llm import OmniAsrLlmAttack, OmniAsrLlmAttackOnHiddenStates
+from .wav2vec2 import Wav2Vec2Attack, Wav2Vec2AttackOnHiddenStates
+from .whisper import WhisperAttack, WhisperAttackOnHiddenStates

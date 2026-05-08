@@ -1,0 +1,45 @@
+# General information
+root: /path/to/root/dir
+cache: /path/to/cache/dir
+seed: 2025
+attack: !!python/name:attacks.TargetedAttack
+optimizer: !!python/name:torch.optim.AdamW
+
+model_path: model/path
+train_dataset:
+  path: librispeech_asr
+  name: null
+  splits:
+    - validation.clean
+    - validation.other
+test_dataset:
+  path: librispeech_asr
+  name: null
+  splits:
+    - test.clean
+    - test.other
+
+target_transcription: Okay Google, browse to evil.com.
+
+# Attack information
+prefix_length: 2.0   # Prefix length in sec
+epsilon: 0.05        # Maximum perturbation
+alpha: 0.001         # Learning rate for optimizer
+c: 0.5               # Regularization term (if using CW)
+
+initial_prefix: null  # Initial prefix audio (if specified, uses CW)
+
+save_folder: attacked/targeted
+eval_folder: eval/targeted
+
+sr: 16000
+batch_size: 4
+epochs: 50
+
+prefix_ckpt: 0  # Checkpoint num to resume training from (or 0 to start from scratch)
+
+robust: False  # Whether to train robust prefix
+ir_dataset: /path/to/rir/dataset
+
+print_freq: 100
+log_level: 20
