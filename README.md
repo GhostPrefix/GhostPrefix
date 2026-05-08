@@ -12,9 +12,9 @@ In this repository, we provide the complete code for training and testing **Ghos
 
 Clone this repository and install dependencies with `pip install -r requirements.txt`.
 
-For GPU support, you may need to install PyTorch separately following the instructions from https://pytorch.org/get-started/locally/.
+For GPU support, you may need to install PyTorch separately following the instructions [here](https://pytorch.org/get-started/locally/).
 
-If you run into issues installing `omnilingual-asr` and `fairseq2` may also need to install `fairseq2` separately following the instructions from https://github.com/facebookresearch/fairseq2.
+If you run into issues installing `omnilingual-asr` and `fairseq2` may also need to install `fairseq2` separately following the instructions [here](https://github.com/facebookresearch/fairseq2).
 
 ## Usage
 
@@ -36,7 +36,7 @@ To generate your own **GhostPrefix** adversarial audio prefixes, first edit one 
     - openai/whisper-large-v3
     - openai/whisper-large-v3-turbo
 3. If you wish to tailor the prefix to an environmental sound template, set `initial_prefix` to the path to a .wav file. It could be a car horn sound effect, notification tone, or any other environmental sound. **GhostPrefix** will initialize the prefix to that sound template and perform a Carlini--Wagner-style L2 attack so that it remains close to that sound.
-4. To train a prefix that's robust to over-the-air playback, set `robust` to True and set `ir_dataset` to the path to a room impulse response (RIR)dataset. We use the MIT McDermott dataset, available [here](https://mcdermottlab.mit.edu/Reverb/IR_Survey.html).
+4. To train a prefix that's robust to over-the-air playback, set `robust` to True and set `ir_dataset` to the path to a room impulse response (RIR) dataset. We use the MIT McDermott dataset, available [here](https://mcdermottlab.mit.edu/Reverb/IR_Survey.html).
 
 **GhostPrefix** currently only supports two Hugging Face datasets, `librispeech_asr` and `facebook/multilingual_librispeech`. To use the latter, `name` can be set to one of the languages included in MLS (`german`, `dutch`, etc.). To use a different dataset, you may have to edit the code to support it.
 
