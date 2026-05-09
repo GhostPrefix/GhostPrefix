@@ -53,7 +53,7 @@ class TraditionalUntargetedAttack(BaseAttack):
 
                         self.logger.info(f"Step {n}, Loss: {loss.item():.4f}, WER: {wer:.4f}, Time: {end - start:.4f} s, ({adv_transcriptions[0]})")
                 except:
-                    pass
+                    continue
                 finally:
                     n += 1
 

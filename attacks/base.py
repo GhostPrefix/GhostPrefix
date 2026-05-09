@@ -16,8 +16,11 @@ from models.base import BaseModelAttack, BaseModelAttackOnHiddenStates
 from .robust import RobustPipeline
 
 
-def map_to_array(example):
+def dataset_map(example):
     example["audio"] = example["audio"]["array"]
+    if "transcript" in example:
+        example["text"] = example.pop("transcript")
+
     return example
 
 
@@ -134,10 +137,7 @@ class BaseAttack():
 
         dataset = concatenate_datasets(dataset_list)
         dataset = dataset.cast_column("audio", Audio(sampling_rate=self.params["sr"]))
-        dataset = dataset.map(map_to_array)
-
-        if self.params[key]["path"] == "facebook/multilingual_librispeech":
-            dataset = dataset.rename_column("transcript", "text")
+        dataset = dataset.map(dataset_map)
 
         if shuffle:
             dataset = dataset.shuffle(self.params["seed"], self.rng, 10000)
