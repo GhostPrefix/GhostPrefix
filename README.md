@@ -35,12 +35,12 @@ To generate your own **GhostPrefix** adversarial audio prefixes, first edit one 
     - openai/whisper-medium
     - openai/whisper-large-v3
     - openai/whisper-large-v3-turbo
-3. If you wish to tailor the prefix to an environmental sound template, set `initial_prefix` to the path to a .wav file. It could be a car horn sound effect, notification tone, or any other environmental sound. **GhostPrefix** will initialize the prefix to that sound template and perform a Carlini--Wagner-style L2 attack so that it remains close to that sound.
-4. To train a prefix that's robust to over-the-air playback, set `robust` to True and set `ir_dataset` to the path to a room impulse response (RIR) dataset. We use the MIT McDermott dataset, available [here](https://mcdermottlab.mit.edu/Reverb/IR_Survey.html).
+3. If you wish to tailor the prefix to an environmental sound template, set `initial_prefix` to the path to a .wav file. It could be a car horn sound effect, notification tone, or any other environmental sound. **GhostPrefix** will initialize the prefix to that sound template and perform a Carlini–Wagner-style L2 attack so that it remains close to that sound.
+4. To train a prefix that's robust to over-the-air playback, set `robust` to True and set `ir_dataset` to the path to a directory of room impulse response (RIR) files. We use the MIT McDermott dataset, available [here](https://mcdermottlab.mit.edu/Reverb/IR_Survey.html).
 
 **GhostPrefix** currently only supports two Hugging Face datasets, `librispeech_asr` and `facebook/multilingual_librispeech`. To use the latter, `name` can be set to one of the languages included in MLS (`german`, `dutch`, etc.). To use a different dataset, you may have to edit the code to support it.
 
-Additionally, while we use MSE loss on hidden states for our untargeted attack mode, we also implement a traditional untargeted attack that uses a token-level loss. To use it, change `attack: !!python/name:attacks.UntargetedAttack` to `attack: !!python/name:attacks.TraditionalUntargetedAttack` in `configs/untargeted.yaml`.
+Additionally, while we use MSE loss on hidden states for our untargeted attack mode, we also implement a traditional untargeted attack that uses a token-level loss. To use it, set `attack` to `!!python/name:attacks.TraditionalUntargetedAttack` in `configs/untargeted.yaml`.
 
 ---
 
