@@ -16,16 +16,17 @@ class UntargetedAttack(BaseAttack):
     hidden_states = True
 
     def train(self, train_dataset: Dataset, eval_dataset: Dataset | None):
-        prefix_input_values = self.init_prefix()
-
+        self.init_logger()
         self.logger.info(f"Begin attack on {self.params['model_path']}")
+
+        prefix_input_values = self.init_prefix()
 
         print(f"\nBegin Untargeted Attack\n")
         self.logger.info(f"Training untargeted prefix\n\nParameters: {self.params}\n")
 
         eval_dir = os.path.join(self.params["root"], self.params["eval_folder"], self.params["model_path"].split("/")[-1])
 
-        start_epoch = 1 if not self.params["prefix_ckpt"] else self.params["prefix_ckpt"] + 1
+        start_epoch = self.params["prefix_ckpt"] + 1
         for epoch in tqdm.trange(start_epoch, self.params["epochs"] + 1, desc="Training Prefix", unit="epoch"):
             self.logger.info(f"Epoch {epoch}/{self.params['epochs']}")
             train_dataset.set_epoch(epoch)
@@ -43,7 +44,7 @@ class UntargetedAttack(BaseAttack):
 
                     end = time.perf_counter()
 
-                    # Print progress and collect training accuracy
+                    # Print progress
                     if n % self.params["print_freq"] == 0 and os.path.exists(self.save_dir):
                         base_transcriptions = self.model.infer_batch(base_input_values)
                         adv_transcriptions = self.model.infer_batch_with_prefix(prefix_input_values, base_input_values)
@@ -51,9 +52,9 @@ class UntargetedAttack(BaseAttack):
 
                         self.logger.info(f"Step {n}, Loss: {loss.item():.4f}, WER: {wer:.4f}, Time: {end - start:.4f} s, ({adv_transcriptions[0]})")
                 except:
-                    continue
-                finally:
-                    n += 1
+                    pass
+
+                n += 1
 
             prefix_audio = self.inputs_to_audio(prefix_input_values)
             if eval_dataset:

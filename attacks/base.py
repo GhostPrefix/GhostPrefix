@@ -43,8 +43,6 @@ class BaseAttack():
         else:
             self.load_model()
 
-        self.init_logger()
-
         if self.use_transcriptions_cache:
             self.init_transcriptions_cache()
 
