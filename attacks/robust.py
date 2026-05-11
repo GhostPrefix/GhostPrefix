@@ -47,9 +47,7 @@ class RobustPipeline():
 
         self.ir_input_values = self.attack.model.preprocess_for_attack(ir_batch)
         self.ir_input_values /= torch.linalg.vector_norm(self.ir_input_values, ord=2, dim=-1, keepdim=True)
-
-        if self.ir_input_values.dtype is torch.bfloat16:
-            self.ir_input_values = self.ir_input_values.float()
+        self.ir_input_values = self.ir_input_values.float()
 
         # Set parameters for band-pass filtering
         min_freqs = torch.randint(MIN_HF_CUTOFF, MAX_HF_CUTOFF + 1, (batch_size,))
@@ -79,8 +77,7 @@ class RobustPipeline():
         d = input_values.device
         t = input_values.dtype
 
-        if t is torch.bfloat16:
-            input_values = input_values.float()
+        input_values = input_values.float()
 
         # Apply padding
         input_values = torch.concatenate((self.start_padding.to(d), input_values, self.end_padding.to(d)), 1)
@@ -97,9 +94,8 @@ class RobustPipeline():
         input_values = torchaudio.functional.add_noise(input_values, noise=noise, snr=self.noise_snrs.to(d))
 
         input_values = input_values.clamp(-1.0, 1.0)
+        input_values = input_values.to(t)
 
-        if t is torch.bfloat16:
-            input_values = input_values.to(t)
         if return_squeezed:
             input_values = input_values.squeeze()
         if return_numpy:
