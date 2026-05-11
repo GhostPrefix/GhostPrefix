@@ -6,7 +6,7 @@ by *Anonymous Authors*, in submission to [Network and Distributed System Securit
 
 Visit our [website](https://ghostprefix.github.io/) for artifacts and demos.
 
-In this repository, we provide the complete code for training and testing **GhostPrefix** adversarial audio prefixes.
+In this repository, we provide the complete code for training and testing **GhostPrefix** adversarial audio prefixes. We also provide our own optimized prefixes in `prefixes/`.
 
 ## Installation
 
@@ -60,4 +60,18 @@ To evaluate a prefix on the test dataset, use `evaluate.py`:
 python evaluate.py configs/prompted.yaml path/to/prefix.wav optional/path/to/output.log
 ```
 
-By default, this will also evaulate the performance of the ASR model with no attack. If that is too time-consuming, add the argument `eval_no_atk=False` to the `attack.evaluate()` function call in line 28 of `evaluate.py`.
+By default, this will also evaulate the performance of the ASR model with no attack. If that is too time-consuming, add `eval_no_atk=False` to the `attack.evaluate()` function call in line 28 of `evaluate.py`.
+
+---
+
+To simply perform ASR on an audio file, use `asr.py`:
+
+```bash
+python asr.py configs/prompted.yaml path/to/audio.wav
+```
+
+This won't perform any attack. Just make sure `model_path` in the config file is set to the ASR model you want to use.
+
+---
+
+👻
